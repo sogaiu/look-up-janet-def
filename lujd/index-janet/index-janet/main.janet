@@ -92,6 +92,9 @@
   # XXX: eventually index other janet files in source tree too?
   #      only seemed to ever index boot.janet
 
+  # XXX: hack to capture all ids in an array
+  (setdyn :all-ids @[])
+
   (ij/index-janet-boot! out-buf)
 
   (each name (os/dir "src/core/")

@@ -87,6 +87,8 @@
                 [_ attrs id] (get tbl ::name)
                 line-no (get attrs :bl)
                 offset (get tbl :offset)]]
+      # XXX: hack to capture all ids in an array
+      (array/push (dyn :all-ids) id)
       [first-line
        id
        (string line-no)

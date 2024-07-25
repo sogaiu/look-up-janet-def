@@ -40,6 +40,8 @@
   (each entry captures
     # XXX: have position here, but ignoring
     (def [line-no _ _ id] entry)
+    # XXX: hack to capture all ids in an array
+    (array/push (dyn :all-ids) id)
     (def line-diff
       (- line-no cur-line))
     (repeat line-diff

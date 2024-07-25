@@ -95,9 +95,10 @@
   (def j-src-path (dyn :lujd-janet-src-path))
   (when (not= :directory (os/stat j-src-path :mode))
     (eprintf "Janet source not available at: %s" j-src-path)
-    (eprint "Please set LUJD_JANET_SRC_PATH to full path of janet")
-    (eprint "source or arrange for an appropriate config file.")
-    (eprint "Please see the program usage text for details.")
+    (eprint "Please set the env var LUJD_JANET_SRC_PATH to a")
+    (eprintf "full path of Janet source or arrange for an")
+    (eprint "appropriate config file.  Please see the program")
+    (eprint "usage text for details.")
     (os/exit 1))
 
   (def file-ext ".lujd")

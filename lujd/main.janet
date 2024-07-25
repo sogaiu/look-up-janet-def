@@ -22,9 +22,9 @@
   ---
 
   [1] Lookups are performed via an index of the Janet
-  source code.  The index (a file named `TAGS`) is built
-  from a local copy of the Janet source code and placed
-  in the same directory.
+  source code.  The index (a file named `TAGS.lujd`) is
+  built from a local copy of the Janet source code and
+  placed in the same directory.
 
   The location of a local copy of the Janet source code
   can be specified via a configuration file or an
@@ -100,25 +100,30 @@
     (eprint "Please see the program usage text for details.")
     (os/exit 1))
 
-  (def etags-file-path (string j-src-path "/TAGS"))
+  (def file-ext ".lujd")
+  (def tags-fname (string "TAGS" file-ext))
+
+  (def etags-file-path (string j-src-path "/" tags-fname))
   (when (not (os/stat etags-file-path))
-    (eprintf "Failed to find `TAGS` file in Janet source directory: %s"
-             j-src-path)
-    (eprint "Attempting to create `TAGS` file.")
+    (eprintf "Failed to find `%s` file in Janet source directory: %s"
+             tags-fname j-src-path)
+    (eprintf "Attempting to create `%s` file." tags-fname)
     (def dir (os/cwd))
     (defer (os/cd dir)
       (os/cd j-src-path)
       (os/setenv "IJ_OUTPUT_FORMAT" "etags")
+      (os/setenv "IJ_FILE_EXTENSION" file-ext)
       (ij/main))
     (when (not (os/stat etags-file-path))
-      (eprint "Failed to create `TAGS` file.")
+      (eprintf "Failed to create `%s` file." tags-fname)
       (os/exit 1)))
 
   (def etags-content
     (try
       (slurp etags-file-path)
       ([e]
-        (eprintf "Failed to read TAGS file: %s" etags-file-path)
+        (eprintf "Failed to read `%s`: %s"
+                 etags-file-path etags-file-path)
         (os/exit 1))))
 
   (src/definition thing etags-content j-src-path))

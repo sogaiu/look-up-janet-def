@@ -90,7 +90,7 @@
             (= "-h" thing)
             (= "--help" thing))
     (print usage)
-    (os/exit 1))
+    (os/exit 0))
 
   (def j-src-path (dyn :lujd-janet-src-path))
   (when (not= :directory (os/stat j-src-path :mode))

@@ -53,11 +53,11 @@
   `vim`.
 
   A particular editor other than the default can be
-  configured via a file (see info about `.lujd`
+  configured via a file (see info about `.lujd.janet`
   above) or via an environment variable.
 
   For the configuration file approach, in a file
-  named `.lujd` in your `HOME` / `USERPROFILE`
+  named `.lujd.janet` in your `HOME` / `USERPROFILE`
   directory, add an appropriate key-value pair to
   a struct which ends up as the last value to be
   evaluated in the file.

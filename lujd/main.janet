@@ -1,5 +1,5 @@
 (import ./dyns :as d)
-(import ./index-janet/index-janet/main :as ij)
+(import ./index :as idx)
 (import ./src :as src)
 
 (def usage
@@ -12,8 +12,6 @@
 
     -h, --help                 show this output
 
-    -f, --force                force index building
-
   Look up the definition of `identifier` [1], a Janet
   identifier, and if found, open an editor [2] to
   display the located definition.
@@ -21,9 +19,6 @@
   Be careful to quote shortnames (e.g. *, ->, >, <-,
   etc.) appropriately so the shell doesn't process them
   in an undesired fashion.
-
-  With the `-f` / `--force` option rebuild the index
-  file.
 
   ---
 
@@ -87,17 +82,6 @@
 
 ########################################################################
 
-(defn build-index
-  [j-src-path file-ext]
-  (def dir (os/cwd))
-  (defer (os/cd dir)
-    (os/cd j-src-path)
-    (os/setenv "IJ_OUTPUT_FORMAT" "etags")
-    (os/setenv "IJ_FILE_EXTENSION" file-ext)
-    (ij/main)))
-
-########################################################################
-
 (defn main
   [& argv]
 
@@ -124,21 +108,13 @@
   (def tags-fname (string "TAGS" file-ext))
   (def etags-file-path (string j-src-path "/" tags-fname))
 
-  (when (or (= "-f" thing)
-            (= "--force" thing))
-    (printf "Attempting to create index file at: %s" etags-file-path)
-    (build-index j-src-path file-ext)
-    (when (not (os/stat etags-file-path))
-      (eprintf "Failed to create index file at: %s" etags-file-path)
-      (os/exit 1))
-    (printf "Created index file at: %s" etags-file-path)
-    (os/exit 0))
-
-  (when (not (os/stat etags-file-path))
-    (eprintf "Failed to find index file %s in Janet directory: %s"
-             tags-fname j-src-path)
-    (eprintf "Attempting to create index file at: %s" etags-file-path)
-    (build-index j-src-path file-ext)
+  (when (or (not (os/stat etags-file-path))
+            (not (idx/file-newest? etags-file-path j-src-path)))
+    (eprintf "Index file might be stale or failed to find it in: %s"
+             j-src-path)
+    (eprintf "Trying to create fresh index file at: %s"
+             etags-file-path)
+    (idx/build-index j-src-path file-ext)
     (when (not (os/stat etags-file-path))
       (eprintf "Failed to create index file at: %s" etags-file-path)
       (os/exit 1))

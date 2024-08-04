@@ -6,7 +6,6 @@
   `````
   Usage: lujd identifier
          lujd [-h|--help]
-         lujd [-f|--force]
 
   Jump to the definition of a Janet identifier.
 

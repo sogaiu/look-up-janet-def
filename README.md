@@ -3,7 +3,9 @@
 Look up a definition for a Janet identifier [1] via a command line
 program and display the results in an editor.
 
-![Invoking lujd](invoking-lujd-with-net-server-id.png?raw=true "Invoking lujd")
+![lujd before completion](lujd-with-net-slash-before-completion.png?raw=true "lujd before completion")
+
+![lujd showing completion candidates](lujd-with-net-slash-showing-completion-candidates.png?raw=true "lujd showing completion candidates")
 
 ![Viewing definition](net-server-def-in-nvim.png?raw=true "Viewing definition")
 

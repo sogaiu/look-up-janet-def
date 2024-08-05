@@ -107,6 +107,36 @@ Usage text can be seen via:
 $ lujd -h
 ```
 
+## Shell Completion
+
+The Janet identifier argument to `lujd` can be completed if using the bash
+/ fish / zsh shells with appropriate configuration.
+
+So for example, pressing `TAB` after entering `lujd j` might yield the
+output:
+
+```
+janet/build        janet/version      juxt*
+janet/config-bits  juxt
+```
+
+To set this up, invoke `lujd` with one of the following for the
+relevant shell:
+
+* `--bash-completion`
+* `--fish-completion`
+* `--zsh-completion`
+
+Put the resulting output in a location appropriate for the shell in
+use.
+
+Below are some hints about where such locations might be:
+
+* [bash](https://github.com/scop/bash-completion/blob/master/README.md#faq) --
+  look for `Where should I install my own local completions?`
+* [fish](https://fishshell.com/docs/current/completions.html#where-to-put-completions)
+* [zsh](https://zsh.sourceforge.io/Doc/Release/Completion-System.html) -- good luck :P
+
 ## Footnotes
 
 [1] "Janet identifier" here refers to an identifier that is usable

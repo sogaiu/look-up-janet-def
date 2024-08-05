@@ -32,3 +32,24 @@
     (os/setenv "IJ_OUTPUT_FORMAT" "etags")
     (os/setenv "IJ_FILE_EXTENSION" file-ext)
     (ij/main)))
+
+(defn all-ids-valid?
+  [all-ids]
+  (and (array? all-ids)
+       (all string? all-ids)))
+
+(comment
+
+  (all-ids-valid? @["alice" "bob" "carol"])
+  # =>
+  true
+
+  (all-ids-valid? [:a :b :c])
+  # =>
+  false
+
+  (all-ids-valid? @["tom" :wall "jerry"])
+  # =>
+  false
+
+  )

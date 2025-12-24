@@ -3115,7 +3115,7 @@ search-string,idline,offset-from-start
 
 (def usage
   `````
-  Usage: lujd identifier
+  Usage: lujd <identifier>
          lujd [option]
 
   Jump to the definition of a Janet identifier.
@@ -3128,7 +3128,7 @@ search-string,idline,offset-from-start
     --zsh-completion           output zsh-completion bits
     --raw-all                  show all identifiers
 
-  Look up the definition of `identifier`, a Janet
+  Look up the definition of <identifier>, a Janet
   identifier, and if found, open an editor to
   display the located definition [1].
 

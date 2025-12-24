@@ -1,0 +1,25 @@
+{:name "look-up-janet-def"
+ :url "https://github.com/sogaiu/look-up-janet-def"
+ :repo "git+https://github.com/sogaiu/look-up-janet-def.git"
+
+ :vendored
+ [{:name "some-bundle-bits"
+   :url "https://github.com/sogaiu/some-bundle-bits"
+   :tag "b9059643baa2d0a822f915e9f1b6cd80308d23c4"
+   :prefix "bundle"
+   :paths ["sbb.janet"]}
+  {:name "jtfm"
+   :url "https://github.com/sogaiu/jtfm"
+   :tag "b383d182958875b5aa680bde391f41194843f2a2"
+   :prefix "bin"
+   :paths ["jtfm.janet"]}
+  {:name "jell"
+   :url "https://github.com/sogaiu/jell"
+   :tag "8277c882b77bca4f629a2b1559732631998842ea"
+   :prefix "bin"
+   :paths ["jell"]}]
+
+ :binscripts
+ [{:main "lujd"
+   :is-janet true}]}
+

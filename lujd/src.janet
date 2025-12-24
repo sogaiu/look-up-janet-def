@@ -1,4 +1,4 @@
-(import ./index-janet/index-janet/etags :as etags)
+(import ./idx :as ij)
 
 (defn open-editor-at
   [line full-path]
@@ -37,7 +37,7 @@
 (defn definition
   [id-name etags-content j-src-path]
   (def etags-table
-    (merge ;(peg/match etags/etags-grammar etags-content)))
+    (merge ;(peg/match ij/etags/etags-grammar etags-content)))
 
   (def result (etags-table id-name))
 

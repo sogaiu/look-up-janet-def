@@ -1,7 +1,0 @@
-*.janet text eol=lf
-*.jdn text eol=lf
-*.cgen text eol=lf
-#
-*.gif binary
-*.jpg binary
-*.png binary

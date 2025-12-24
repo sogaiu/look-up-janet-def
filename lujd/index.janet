@@ -1,4 +1,4 @@
-(import ./index-janet/index-janet/main :as ij)
+(import ./idx :as ij)
 
 (defn file-newest?
   [file-path dir-path]

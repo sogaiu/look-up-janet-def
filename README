@@ -1,0 +1,33 @@
+Usage: lujd identifier
+       lujd [option]
+
+Jump to the definition of a Janet identifier.
+
+  -c, --conf-help            show config help
+  -h, --help                 show this output
+
+  --bash-completion          output bash-completion bits
+  --fish-completion          output fish-completion bits
+  --zsh-completion           output zsh-completion bits
+  --raw-all                  show all identifiers
+
+Look up the definition of `identifier`, a Janet
+identifier, and if found, open an editor to
+display the located definition [1].
+
+Be careful to quote shortnames (e.g. *, ->, >, <-,
+etc.) appropriately so the shell doesn't process them
+in an undesired fashion.
+
+---
+
+[1] Lookups are performed via an index of the Janet
+source code.  The index (a file named `TAGS.lujd`) is
+built from a local copy of the Janet source code and
+placed in the same directory.
+
+`lujd` minimally expects the location of Janet source
+code to be available via a file (`~/.lujd.janet` for
+*nixes) and/or an environment variable.
+
+See output of `lujd -c` for more details.

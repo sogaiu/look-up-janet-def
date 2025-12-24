@@ -1,3 +1,5 @@
+#! /usr/bin/env janet
+
 (import ./argv :as av)
 (import ./completion :as compl)
 (import ./dyns :as d)

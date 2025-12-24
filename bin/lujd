@@ -1,6 +1,0 @@
-(import lujd/main)
-
-(defn main
-  [& argv]
-  (main/main ;argv))
-

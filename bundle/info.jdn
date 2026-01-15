@@ -7,10 +7,10 @@
    :url "https://github.com/sogaiu/some-bundle-bits"
    :tag "b9059643baa2d0a822f915e9f1b6cd80308d23c4"
    :paths [["sbb.janet" "bundle/"]]}
-  {:name "jtfm"
-   :url "https://github.com/sogaiu/jtfm"
-   :tag "b383d182958875b5aa680bde391f41194843f2a2"
-   :paths [["jtfm.janet" "bin/"]]}
+  {:name "niche"
+   :url "https://github.com/sogaiu/niche"
+   :tag "3f744cfb02b472971f82e78f16a027908a4bd717"
+   :paths [["niche.janet" "bin/"]]}
   {:name "jell"
    :url "https://github.com/sogaiu/jell"
    :tag "8277c882b77bca4f629a2b1559732631998842ea"

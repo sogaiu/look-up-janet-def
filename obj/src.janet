@@ -37,7 +37,7 @@
 (defn src/definition
   [id-name etags-content j-src-path]
   (def etags-table
-    (merge ;(peg/match ij/etags/etags-grammar etags-content)))
+    (merge ;(peg/match idx/etags/etags-grammar etags-content)))
 
   (def result (etags-table id-name))
 

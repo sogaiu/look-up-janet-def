@@ -2,7 +2,7 @@
 
 (comment import ./index-c :prefix "")
 (comment import ./index :prefix "")
-(defn ij/idx/get-first-lines-and-offsets!
+(defn idx/idx/get-first-lines-and-offsets!
   [src-str filtered key-name]
   (var cur-line 1)
   (var pos 0)
@@ -33,7 +33,7 @@
   #
   filtered)
 
-(defn ij/idx/get-all-pieces
+(defn idx/idx/get-all-pieces
   [src-str captures]
   (def results @[])
   (var cur-line 1)
@@ -66,7 +66,7 @@
   #
   results)
 
-(defn ij/idx/index-file!
+(defn idx/idx/index-file!
   [src path tags-fn out-buf]
   (def form-feed
     (string/from-bytes 0x0C))
@@ -150,7 +150,7 @@
 #     return janet_wrap_abstract(box); \
 # } \
 
-(def ij/ic/col-one
+(def idx/ic/col-one
   ~{:main (some (choice :comment
                         :macro-define
                         :non-macro-match
@@ -194,7 +194,7 @@
     :not-match 1})
 
 # see comment form below for concrete examples
-(defn ij/ic/find-id-for-td-en-st-line
+(defn idx/ic/find-id-for-td-en-st-line
   [line position src]
   (def rev
     (string/reverse line))
@@ -250,13 +250,13 @@
 
 (comment
 
-  (ij/ic/find-id-for-td-en-st-line
+  (idx/ic/find-id-for-td-en-st-line
     "typedef double (win64_variant_f_ffff)(double, double, double, double);"
     nil nil)
   # =>
   "win64_variant_f_ffff"
 
-  (ij/ic/find-id-for-td-en-st-line
+  (idx/ic/find-id-for-td-en-st-line
     (string "typedef sysv64_sseint_return "
             "janet_sysv64_variant_4(uint64_t a, uint64_t b, uint64_t c, "
             "uint64_t d, uint64_t e, uint64_t f,")
@@ -264,40 +264,40 @@
   # =>
   "janet_sysv64_variant_4"
 
-  (ij/ic/find-id-for-td-en-st-line
+  (idx/ic/find-id-for-td-en-st-line
     "typedef struct _stat jstat_t;"
     nil nil)
   # =>
   "jstat_t"
 
-  (ij/ic/find-id-for-td-en-st-line
+  (idx/ic/find-id-for-td-en-st-line
     "enum JanetInstructionType janet_instructions[JOP_INSTRUCTION_COUNT] = {"
     nil nil)
   # =>
   "janet_instructions"
 
-  (ij/ic/find-id-for-td-en-st-line
+  (idx/ic/find-id-for-td-en-st-line
     "enum JanetParserStatus janet_parser_status(JanetParser *parser) {"
     nil nil)
   # =>
   "janet_parser_status"
 
-  (ij/ic/find-id-for-td-en-st-line
+  (idx/ic/find-id-for-td-en-st-line
     "enum JanetMemoryType {" nil nil)
   # =>
   "JanetMemoryType"
 
-  (ij/ic/find-id-for-td-en-st-line
+  (idx/ic/find-id-for-td-en-st-line
     "struct BigNat {" nil nil)
   # =>
   "BigNat"
 
-  (ij/ic/find-id-for-td-en-st-line
+  (idx/ic/find-id-for-td-en-st-line
     "typedef struct JanetEnvRef {" nil nil)
   # =>
   "JanetEnvRef"
 
-  (ij/ic/find-id-for-td-en-st-line
+  (idx/ic/find-id-for-td-en-st-line
     "typedef void (*Special)(Builder *b, int32_t argc, const Janet *argv);"
     nil nil)
   # =>
@@ -337,7 +337,7 @@
     } LeadBytes;
     ``)
 
-  (ij/ic/find-id-for-td-en-st-line
+  (idx/ic/find-id-for-td-en-st-line
     "enum {" 0 src)
   # =>
   "LeadBytes"
@@ -351,7 +351,7 @@
     } JanetWriteMode;
     ``)
 
-  (ij/ic/find-id-for-td-en-st-line
+  (idx/ic/find-id-for-td-en-st-line
     "typedef enum {" 0 src)
   # =>
   "JanetWriteMode"
@@ -366,7 +366,7 @@
     } JanetEVThreadInit;
     ``)
 
-  (ij/ic/find-id-for-td-en-st-line
+  (idx/ic/find-id-for-td-en-st-line
     "typedef struct {" 0 src)
   # =>
   "JanetEVThreadInit"
@@ -395,14 +395,14 @@
     } PegState;
     ``)
 
-  (ij/ic/find-id-for-td-en-st-line
+  (idx/ic/find-id-for-td-en-st-line
     "typedef struct {" 0 src)
   # =>
   "PegState"
 
   )
 
-(defn ij/ic/find-id-for-rest
+(defn idx/ic/find-id-for-rest
   [line]
   (def rev
     (string/reverse line))
@@ -493,59 +493,59 @@
 
   #(os/setenv "VERBOSE" "1")
 
-  (ij/ic/find-id-for-rest
+  (idx/ic/find-id-for-rest
     "const char *const janet_signal_names[14] = {")
   # =>
   "janet_signal_names"
 
-  (ij/ic/find-id-for-rest
+  (idx/ic/find-id-for-rest
     "static char error_clib_buf[256];")
   # =>
   "error_clib_buf"
 
-  (ij/ic/find-id-for-rest
+  (idx/ic/find-id-for-rest
     "static int cfun_io_gc(void *p, size_t len);")
   # =>
   :declaration
 
-  (ij/ic/find-id-for-rest
+  (idx/ic/find-id-for-rest
     "JANET_THREAD_LOCAL JanetVM janet_vm;")
   # =>
   "janet_vm"
 
-  (ij/ic/find-id-for-rest
+  (idx/ic/find-id-for-rest
     "double (janet_unwrap_number)(Janet x) {")
   # =>
   "janet_unwrap_number"
 
-  (ij/ic/find-id-for-rest
+  (idx/ic/find-id-for-rest
     "const Janet *(janet_unwrap_tuple)(Janet x) {")
   # =>
   "janet_unwrap_tuple"
 
-  (ij/ic/find-id-for-rest
+  (idx/ic/find-id-for-rest
     "os_proc_wait_impl(JanetProc *proc) {")
   # =>
   "os_proc_wait_impl"
 
-  (ij/ic/find-id-for-rest
+  (idx/ic/find-id-for-rest
     "const void *janet_strbinsearch(")
   # =>
   "janet_strbinsearch"
 
-  (ij/ic/find-id-for-rest
+  (idx/ic/find-id-for-rest
     "static const JanetAbstractType janet_struct_type = {")
   # =>
   "janet_struct_type"
 
-  (ij/ic/find-id-for-rest
+  (idx/ic/find-id-for-rest
     "static void janetc_movenear(JanetCompiler *c,")
   # =>
   "janetc_movenear"
 
   )
 
-(defn ij/ic/find-id-for-macro-define
+(defn idx/ic/find-id-for-macro-define
   [line]
   (def g
     ~(sequence "#define" :s+
@@ -557,30 +557,30 @@
 
 (comment
 
-  (ij/ic/find-id-for-macro-define
+  (idx/ic/find-id-for-macro-define
     "#define A ((*pc >> 8)  & 0xFF)")
   # =>
   "A"
 
-  (ij/ic/find-id-for-macro-define
+  (idx/ic/find-id-for-macro-define
     (string "#define janet_v_free(v)         "
             "(((v) != NULL) ? (janet_sfree(janet_v__raw(v)), 0) : 0)"))
   # =>
   "janet_v_free"
 
-  (ij/ic/find-id-for-macro-define
+  (idx/ic/find-id-for-macro-define
     "#define vm_throw(e) do { vm_commit(); janet_panic(e); } while (0)")
   # =>
   "vm_throw"
 
-  (ij/ic/find-id-for-macro-define
+  (idx/ic/find-id-for-macro-define
     "#define JANET_EMIT_H")
   # =>
   nil
 
   )
 
-(defn ij/ic/separate-lines
+(defn idx/ic/separate-lines
   [samples]
   (def scan-from-right @[])
   # typedef, enum, struct
@@ -620,12 +620,12 @@
     (seq [path :in (os/dir dir)
           :let [full-path (string dir "/" path)
                 src (slurp full-path)]
-          item :in (peg/match ij/ic/col-one src)]
+          item :in (peg/match idx/ic/col-one src)]
       # XXX: src or path?
       (put item :src src)))
 
   (def [scan-from-right td-en-st macro-defines unmatched]
-    (ij/ic/separate-lines samples))
+    (idx/ic/separate-lines samples))
 
   (var cnt 0)
 
@@ -637,7 +637,7 @@
     (def src
       (get i :src))
     (def result
-      (ij/ic/find-id-for-td-en-st-line s position src))
+      (idx/ic/find-id-for-td-en-st-line s position src))
     (when (string? result)
       (++ cnt))
     (printf "%p" result))
@@ -645,7 +645,7 @@
   (each i (sort-by |(get $ :text) scan-from-right)
     (def s
       (get i :text))
-    (def result (ij/ic/find-id-for-rest s))
+    (def result (idx/ic/find-id-for-rest s))
     (when (string? result)
       (++ cnt))
     (printf "%p" result))
@@ -654,7 +654,7 @@
     (def s
       (get i :text))
     (def result
-      (ij/ic/find-id-for-macro-define s))
+      (idx/ic/find-id-for-macro-define s))
     (when (string? result)
       (++ cnt))
     (printf "%p" result))
@@ -666,7 +666,7 @@
 
 ########################################################################
 
-(defn ij/ic/find-c-tags
+(defn idx/ic/find-c-tags
   [src]
 
   (def results @[])
@@ -684,17 +684,17 @@
        (string (os/getenv "HOME") "/src/janet/src/core/vector.h")))
 
   (def caps
-    (peg/match ij/ic/col-one src))
+    (peg/match idx/ic/col-one src))
 
   (def [scan-from-right td-en-st macro-defines unmatched]
-    (ij/ic/separate-lines caps))
+    (idx/ic/separate-lines caps))
 
   # XXX: what about duplicates?
   (each item scan-from-right
     (def line
       (get item :text))
     (def id-maybe
-      (ij/ic/find-id-for-rest line))
+      (idx/ic/find-id-for-rest line))
     (when (string? id-maybe)
       (def line-no
         (get item :bl))
@@ -712,7 +712,7 @@
     (def pos
       (get item :bp))
     (def id-maybe
-      (ij/ic/find-id-for-td-en-st-line line pos src))
+      (idx/ic/find-id-for-td-en-st-line line pos src))
     (when (string? id-maybe)
       (def line-no
         (get item :bl))
@@ -728,7 +728,7 @@
     (def pos
       (get item :bp))
     (def id-maybe
-      (ij/ic/find-id-for-macro-define line))
+      (idx/ic/find-id-for-macro-define line))
     (when (string? id-maybe)
       (def line-no
         (get item :bl))
@@ -786,9 +786,9 @@
 
 ########################################################################
 
-(defn ij/ic/index-c!
+(defn idx/ic/index-c!
   [src path out-buf]
-  (ij/idx/index-file! src path ij/ic/find-c-tags out-buf))
+  (idx/idx/index-file! src path idx/ic/find-c-tags out-buf))
 
 
 (comment import ./index-j2c :prefix "")
@@ -797,7 +797,7 @@
 
 ########################################################################
 
-(defn ij/ij2c/find-math-c-tags
+(defn idx/ij2c/find-math-c-tags
   [src]
 
   '(def src
@@ -840,9 +840,9 @@
   (def caps
     (peg/match query-peg src))
 
-  (ij/idx/get-all-pieces src caps))
+  (idx/idx/get-all-pieces src caps))
 
-(defn ij/ij2c/find-specials-c-tags
+(defn idx/ij2c/find-specials-c-tags
   [src]
 
   '(def src
@@ -876,9 +876,9 @@
   (def caps
     (peg/match query-peg src))
 
-  (ij/idx/get-all-pieces src caps))
+  (idx/idx/get-all-pieces src caps))
 
-(defn ij/ij2c/find-corelib-c-tags
+(defn idx/ij2c/find-corelib-c-tags
   [src]
 
   '(def src
@@ -943,12 +943,12 @@
   (def caps
     (peg/match query-peg src))
 
-  (ij/idx/get-all-pieces src caps))
+  (idx/idx/get-all-pieces src caps))
 
 # JANET_CORE_DEF
 # * io.c
 # * math.c
-(defn ij/ij2c/find-janet-core-def-tags
+(defn idx/ij2c/find-janet-core-def-tags
   [src]
 
   '(def src
@@ -997,11 +997,11 @@
   (def caps
     (peg/match query-peg src))
 
-  (ij/idx/get-all-pieces src caps))
+  (idx/idx/get-all-pieces src caps))
 
 # JANET_CORE_FN
 # * many
-(defn ij/ij2c/find-janet-core-fn-tags
+(defn idx/ij2c/find-janet-core-fn-tags
   [src]
 
   '(def src
@@ -1046,11 +1046,11 @@
   (def caps
     (peg/match query-peg src))
 
-  (ij/idx/get-all-pieces src caps))
+  (idx/idx/get-all-pieces src caps))
 
 # const JanetAbstractType janet... = {
 # * many
-(defn ij/ij2c/find-janet-abstract-type-tags
+(defn idx/ij2c/find-janet-abstract-type-tags
   [src]
 
   '(def src
@@ -1084,34 +1084,34 @@
   (def caps
     (peg/match query-peg src))
 
-  (ij/idx/get-all-pieces src caps))
+  (idx/idx/get-all-pieces src caps))
 
 ########################################################################
 
-(defn ij/ij2c/index-math-c!
+(defn idx/ij2c/index-math-c!
   [src path out-buf]
-  (ij/idx/index-file! src path ij/ij2c/find-math-c-tags out-buf))
+  (idx/idx/index-file! src path idx/ij2c/find-math-c-tags out-buf))
 
-(defn ij/ij2c/index-specials-c!
+(defn idx/ij2c/index-specials-c!
   [src path out-buf]
-  (ij/idx/index-file! src path ij/ij2c/find-specials-c-tags out-buf))
+  (idx/idx/index-file! src path idx/ij2c/find-specials-c-tags out-buf))
 
-(defn ij/ij2c/index-corelib-c!
+(defn idx/ij2c/index-corelib-c!
   [src path out-buf]
-  (ij/idx/index-file! src path ij/ij2c/find-corelib-c-tags out-buf))
+  (idx/idx/index-file! src path idx/ij2c/find-corelib-c-tags out-buf))
 
-(defn ij/ij2c/index-janet-core-def-c!
+(defn idx/ij2c/index-janet-core-def-c!
   [src path out-buf]
-  (ij/idx/index-file! src path ij/ij2c/find-janet-core-def-tags out-buf))
+  (idx/idx/index-file! src path idx/ij2c/find-janet-core-def-tags out-buf))
 
-(defn ij/ij2c/index-generic-c!
+(defn idx/ij2c/index-generic-c!
   [src path out-buf]
   (try
-    (ij/idx/index-file! src path ij/ij2c/find-janet-abstract-type-tags out-buf)
+    (idx/idx/index-file! src path idx/ij2c/find-janet-abstract-type-tags out-buf)
     ([e]
       (eprintf "%s: abstract - %p" path e)))
   (try
-    (ij/idx/index-file! src path ij/ij2c/find-janet-core-fn-tags out-buf)
+    (idx/idx/index-file! src path idx/ij2c/find-janet-core-fn-tags out-buf)
     ([e]
       (eprintf "%s: core-fn - %p" path e))))
 
@@ -1128,14 +1128,14 @@
 # el - end line
 # ec - end column
 # ep - end position
-(defn ij/l/make-attrs
+(defn idx/l/make-attrs
   [& args]
   (zipcoll [:bl :bc :bp :el :ec :ep]
            args))
 
 (comment
 
-  (ij/l/make-attrs 1 1 0
+  (idx/l/make-attrs 1 1 0
               10 20 50)
   # =>
   @{:bc 1 :bl 1 :bp 0 :ec 20 :el 10 :ep 50}
@@ -1150,7 +1150,7 @@
                              ,peg-form
                              (line) (column) (position)))
           ,|[the-type
-             (ij/l/make-attrs ;(tuple/slice $& 0 3)
+             (idx/l/make-attrs ;(tuple/slice $& 0 3)
                          ;(tuple/slice $& (- (- 3) 2) -2))
              (last $&)]))
 
@@ -1171,7 +1171,7 @@
                                   $0 $1 $2 close the-type))))
            (line) (column) (position)))
        ,|[the-type
-          (ij/l/make-attrs ;(tuple/slice $& 0 3)
+          (idx/l/make-attrs ;(tuple/slice $& 0 3)
                       ;(tuple/slice $& (- (- 3) 2) -2))
           ;(tuple/slice $& 3 (- (- 3 ) 2))]))
 
@@ -1200,7 +1200,7 @@
 
 
 
-(defn ij/jp/make-grammar
+(defn idx/jp/make-grammar
   [&opt opts]
   #
   (def opaque-node
@@ -1210,7 +1210,7 @@
                                    ,peg-form
                                    (line) (column) (position)))
                 ,|[the-type
-                   (ij/l/make-attrs ;(tuple/slice $& 0 3)
+                   (idx/l/make-attrs ;(tuple/slice $& 0 3)
                                  ;(tuple/slice $& (- (- 3) 2) -2))
                    (last $&)]))))
   #
@@ -1232,7 +1232,7 @@
                                         $0 $1 $2 close the-type))))
                  (line) (column) (position)))
              ,|[the-type
-                (ij/l/make-attrs ;(tuple/slice $& 0 3)
+                (idx/l/make-attrs ;(tuple/slice $& 0 3)
                               ;(tuple/slice $& (- (- 3) 2) -2))
                 ;(tuple/slice $& 3 (- (- 3 ) 2))]))))
   #
@@ -1317,7 +1317,7 @@
 
 (comment
 
-  (def grammar (ij/jp/make-grammar))
+  (def grammar (idx/jp/make-grammar))
 
   (get (peg/match grammar `2`) 3)
   # =>
@@ -1396,7 +1396,7 @@
 (comment import ./loc :prefix "")
 
 
-(defn ij/c/init-infra
+(defn idx/c/init-infra
   [make-grammar]
   (var counter 0)
 
@@ -1420,7 +1420,7 @@
                              ,peg-form
                              (line) (column) (position)))
           ,|(let [id (issue-id)
-                  attrs (ij/l/make-attrs ;(tuple/slice $& 0 -2))
+                  attrs (idx/l/make-attrs ;(tuple/slice $& 0 -2))
                   _ (put loc->id (freeze attrs) id)
                   node [node-type
                         (put attrs :id id)
@@ -1445,7 +1445,7 @@
                                   $0 $1 $2 close-delim node-type))))
            (line) (column) (position)))
        ,|(let [id (issue-id)
-               attrs (ij/l/make-attrs ;(tuple/slice $& 0 3)
+               attrs (idx/l/make-attrs ;(tuple/slice $& 0 3)
                                    ;(tuple/slice $& (- (- 3) 2) -2))
                _ (put loc->id (freeze attrs) id)
                # add the index position and parent id for each child
@@ -1498,7 +1498,7 @@
         (if-let [[bl bc bp tree el ec ep]
                  (peg/match loc-top-level-ast src start)]
           @[:code
-            (put (ij/l/make-attrs bl bc bp el ec ep)
+            (put (idx/l/make-attrs bl bc bp el ec ep)
                  :id top-id)
             tree]
           @[:code])
@@ -1514,7 +1514,7 @@
                                   [0 @[]]
                                   (array/slice captures 3 (dec -3)))]
             (array/insert trees 0
-                          :code (put (ij/l/make-attrs bl bc bp el ec ep)
+                          :code (put (idx/l/make-attrs bl bc bp el ec ep)
                                      :id top-id)))
           @[:code])))
     #
@@ -1529,13 +1529,13 @@
    :reset reset
    :parse par})
 
-(defn ij/c/make-cursor
+(defn idx/c/make-cursor
   [node-table &opt node]
   (default node (get node-table 0))
   {:node node
    :table node-table})
 
-(defn ij/c/right
+(defn idx/c/right
   [{:node n :table n-tbl}]
   (def [_ attrs _] n)
   (when-let [pid (get attrs :pid)
@@ -1546,14 +1546,14 @@
         {:node next-sibling
          :table n-tbl}))))
 
-(defn ij/c/up
+(defn idx/c/up
   [{:node n :table n-tbl}]
   (def [_ attrs _] n)
   (when-let [pid (get attrs :pid)]
     {:node (get n-tbl pid)
      :table n-tbl}))
 
-(defn ij/c/down
+(defn idx/c/down
   [{:node n :table n-tbl}]
   (def [_ _ & rest] n)
   (when (tuple? rest)
@@ -1562,21 +1562,21 @@
         {:node first-elt
          :table n-tbl}))))
 
-(defn ij/c/df-next
+(defn idx/c/df-next
   [crs]
   #
   (defn helper
     [a-crs]
-    (if-let [up-cand (ij/c/up a-crs)]
-      (or (ij/c/right up-cand)
+    (if-let [up-cand (idx/c/up a-crs)]
+      (or (idx/c/right up-cand)
           (helper up-cand))
       :back-at-top))
   # XXX: this part might be off a bit
-  (or (ij/c/down crs)
-      (ij/c/right crs)
+  (or (idx/c/down crs)
+      (idx/c/right crs)
       (helper crs)))
 
-(defn ij/c/rightmost
+(defn idx/c/rightmost
   [{:node node :table node-table}]
   (def [_ attrs _] node)
   (when-let [pid (get attrs :pid)
@@ -1586,7 +1586,7 @@
         {:node last-sibling
          :table node-table}))))
 
-(defn ij/c/left
+(defn idx/c/left
   [{:node n :table n-tbl}]
   (def [_ attrs _] n)
   (when-let [pid (get attrs :pid)
@@ -1597,42 +1597,42 @@
         {:node prev-sibling
          :table n-tbl}))))
 
-(defn ij/c/df-prev
+(defn idx/c/df-prev
   [crs]
   #
   (defn helper
     [a-crs]
-    (if-let [down-cand (ij/c/down a-crs)]
-      (helper (ij/c/rightmost down-cand))
+    (if-let [down-cand (idx/c/down a-crs)]
+      (helper (idx/c/rightmost down-cand))
       a-crs))
   #
-  (if-let [left-cand (ij/c/left crs)]
+  (if-let [left-cand (idx/c/left crs)]
     (helper left-cand)
-    (ij/c/up crs)))
+    (idx/c/up crs)))
 
 
 
-(def ij/jc/init-infra ij/c/init-infra)
+(def idx/jc/init-infra idx/c/init-infra)
 
-(def ij/jc/make-cursor ij/c/make-cursor)
+(def idx/jc/make-cursor idx/c/make-cursor)
 
-(def ij/jc/right ij/c/right)
+(def idx/jc/right idx/c/right)
 
-(def ij/jc/up ij/c/up)
+(def idx/jc/up idx/c/up)
 
-(def ij/jc/down ij/c/down)
+(def idx/jc/down idx/c/down)
 
-(def ij/jc/df-next ij/c/df-next)
+(def idx/jc/df-next idx/c/df-next)
 
-(def ij/jc/rightmost ij/c/rightmost)
+(def idx/jc/rightmost idx/c/rightmost)
 
-(def ij/jc/left ij/c/left)
+(def idx/jc/left idx/c/left)
 
-(def ij/jc/df-prev ij/c/df-prev)
+(def idx/jc/df-prev idx/c/df-prev)
 
-(defn ij/jc/make-infra
+(defn idx/jc/make-infra
   []
-  (ij/jc/init-infra ij/jp/make-grammar))
+  (idx/jc/init-infra idx/jp/make-grammar))
 
 (comment
 
@@ -1641,7 +1641,7 @@
         :node-table id->node
         :loc-table loc->id
         :reset reset}
-    (ij/jc/make-infra))
+    (idx/jc/make-infra))
 
   (reset)
 
@@ -1713,12 +1713,12 @@
 (comment import ./janet-peg :prefix "")
 
 (comment import ./debug :prefix "")
-(defn ij/d/deprintf
+(defn idx/d/deprintf
   [fmt & args]
   (when (dyn :ij-debug)
     (eprintf fmt ;args)))
 
-(defn ij/d/deprint
+(defn idx/d/deprint
   [msg]
   (when (dyn :ij-debug)
     (eprint msg)))
@@ -1741,7 +1741,7 @@
 #
 # XXX: could "lint" the options, e.g. conflict in blob char with
 #      blank delims
-(defn ij/jq/make-infra
+(defn idx/jq/make-infra
   [&opt opts]
 
   (def safe-delim
@@ -1759,7 +1759,7 @@
                              ,peg-form
                              (line) (column) (position)))
           # XXX: ;(tuple/slice $& 0 -2) might work here
-          ,|(let [attrs (ij/l/make-attrs ;(tuple/slice $& 0 3)
+          ,|(let [attrs (idx/l/make-attrs ;(tuple/slice $& 0 3)
                                       ;(tuple/slice $& (- (- 3) 2) -2))
                   node [the-type attrs (last $&)]]
               (put loc->node (freeze attrs) node)
@@ -1781,14 +1781,14 @@
                                           "missing %s for %s")
                                   $0 $1 $2 close the-type))))
            (line) (column) (position)))
-       ,|(let [attrs (ij/l/make-attrs ;(tuple/slice $& 0 3)
+       ,|(let [attrs (idx/l/make-attrs ;(tuple/slice $& 0 3)
                                    ;(tuple/slice $& (- (- 3) 2) -2))
                node [the-type attrs ;(tuple/slice $& 3 (- (- 3 ) 2))]]
            (put loc->node (freeze attrs) node)
            node)))
 
   (def lang-grammar
-    (ij/jp/make-grammar {:opaque-node opaque-node
+    (idx/jp/make-grammar {:opaque-node opaque-node
                       :delim-node delim-node}))
 
   (def query-grammar
@@ -1806,15 +1806,15 @@
                             (capture :blank-internal)
                             (line) (column) (position)))
                 ,|(let [attrs
-                        (ij/l/make-attrs ;(tuple/slice $& 0 3)
+                        (idx/l/make-attrs ;(tuple/slice $& 0 3)
                                       ;(tuple/slice $& (- (- 3) 2) -2))
                         n (array/pop n-safe-delims)
                         [value] (slice $& 3 (- (- 3) 2))]
                     # XXX
-                    (ij/d/deprintf "$&: %n" $&)
-                    (ij/d/deprintf "attrs: %n" attrs)
-                    (ij/d/deprintf "value: %n" value)
-                    (ij/d/deprintf "n: %d" n)
+                    (idx/d/deprintf "$&: %n" $&)
+                    (idx/d/deprintf "attrs: %n" attrs)
+                    (idx/d/deprintf "value: %n" value)
+                    (idx/d/deprintf "n: %d" n)
                     # discard the surrounding blank delimiters
                     [:blank attrs (string/slice value n (dec (- n)))])))
         (put
@@ -1850,14 +1850,14 @@
       (if single
         (if-let [[bl bc bp tree el ec ep]
                  (peg/match top-level-ast src start)]
-          @[:code (ij/l/make-attrs bl bc bp el ec ep) tree]
+          @[:code (idx/l/make-attrs bl bc bp el ec ep) tree]
           @[:code])
         (if-let [captures (peg/match query-grammar src start)]
           (let [[bl bc bp] (slice captures 0 3)
                 [el ec ep] (slice captures (dec -3))
                 trees (array/slice captures 3 (dec -3))]
             (array/insert trees 0
-                          :code (ij/l/make-attrs bl bc bp el ec ep)))
+                          :code (idx/l/make-attrs bl bc bp el ec ep)))
           @[:code])))
     #
     top-node)
@@ -2004,7 +2004,7 @@
   (def {:lang-grammar l-grammar
         :query-grammar q-grammar
         :parse-query parse-query}
-    (ij/jq/make-infra {:safe-delim `\`}))
+    (idx/jq/make-infra {:safe-delim `\`}))
 
   (get (peg/match l-grammar `2`) 3)
   # =>
@@ -2053,7 +2053,7 @@
 (comment
 
   (def {:parse-blank-data parse-blank-data}
-    (ij/jq/make-infra {:safe-delim `\`}))
+    (idx/jq/make-infra {:safe-delim `\`}))
 
   (parse-blank-data `:...`)
   # =>
@@ -2123,7 +2123,7 @@
 # in the ordinary fashion to produce the tree of nodes.  this makes
 # getting at the desired results easier, but possibly it also doesn't
 # mess up the capturing process (though not sure of this latter point).
-(defn ij/jq/query
+(defn idx/jq/query
   [query-str src-str &opt opts]
   #
   (def [safe-left-delim safe-right-delim]
@@ -2156,11 +2156,11 @@
         :make-query-peg make-query-peg
         :query-grammar q-grammar}
     # XXX: only one delim?
-    (ij/jq/make-infra {:safe-delim safe-left-delim}))
+    (idx/jq/make-infra {:safe-delim safe-left-delim}))
   # XXX
-  (ij/d/deprintf "query-str: %n" query-str)
+  (idx/d/deprintf "query-str: %n" query-str)
   #
-  (ij/d/deprintf "blank-delims: %n" (get opts :blank-delims))
+  (idx/d/deprintf "blank-delims: %n" (get opts :blank-delims))
   # XXX: does this handle all cases?
   (def safe-query-str
     (if-let [[left-delim right-delim] (get opts :blank-delims)]
@@ -2169,16 +2169,16 @@
            (string/replace-all right-delim safe-right-delim))
       query-str))
   # XXX
-  (ij/d/deprintf "safe-query-str: %n" safe-query-str)
+  (idx/d/deprintf "safe-query-str: %n" safe-query-str)
   (def query-tree
     (parse-query safe-query-str))
   # XXX
-  (ij/d/deprintf "query-tree: %n" query-tree)
+  (idx/d/deprintf "query-tree: %n" query-tree)
   (def backstack @[])
   (def converted
     (make-query-peg query-tree @[]))
   # XXX
-  (ij/d/deprintf "converted: %n" converted)
+  (idx/d/deprintf "converted: %n" converted)
   # merge successive :s+ to allow more readable queries
   (def massaged
     (reduce (fn [acc item]
@@ -2189,14 +2189,14 @@
             @[]
             converted))
   # XXX
-  (ij/d/deprintf "massaged: %n" massaged)
+  (idx/d/deprintf "massaged: %n" massaged)
   (def query-peg
     ~(cmt (sequence ,;massaged)
           ,(fn [& args]
              # XXX
              (if (empty? args)
-               (ij/d/deprint "args was empty")
-               (ij/d/deprintf "args: %n" args))
+               (idx/d/deprint "args was empty")
+               (idx/d/deprintf "args: %n" args))
              # capture elsewhere, but only if non-empty args
              (when (not (empty? args))
                (array/push backstack (table ;args)))
@@ -2242,7 +2242,7 @@
     ``)
 
   (def [results _ loc->node]
-    (ij/jq/query query-str src-str {:blank-delims [`\` `\`]}))
+    (idx/jq/query query-str src-str {:blank-delims [`\` `\`]}))
 
   (length results)
   # =>
@@ -2294,7 +2294,7 @@
 
 ########################################################################
 
-(defn ij/ij/find-janet-tags
+(defn idx/ij/find-janet-tags
   [src]
 
   '(def src
@@ -2313,14 +2313,14 @@
     ``)
 
   (def [results _ loc->node]
-    (ij/jq/query query-str src {:blank-delims [`<` `>`]}))
+    (idx/jq/query query-str src {:blank-delims [`<` `>`]}))
 
   (def {:grammar loc-grammar
         :issuer issue-id
         :node-table id->node
         :loc-table loc->id
         :reset reset}
-    (ij/jc/make-infra))
+    (idx/jc/make-infra))
 
   (def m-raw
     (peg/match loc-grammar src))
@@ -2338,23 +2338,23 @@
                 (eprintf "no id for loc: %p" loc)
                 (break))
               (def parent-tuple
-                (ij/jc/up (ij/jc/make-cursor id->node
+                (idx/jc/up (idx/jc/make-cursor id->node
                                        (get id->node id))))
               (unless parent-tuple (break))
               (def grent-tuple
-                (ij/jc/up parent-tuple))
+                (idx/jc/up parent-tuple))
               (unless grent-tuple
                 # top-level
                 (break true))
               # should succeed given how we got here from below
               (def head-node
-                ((ij/jc/down grent-tuple) :node))
+                ((idx/jc/down grent-tuple) :node))
               (def [_ _ head-name] head-node)
               # XXX: any other things (e.g. compif)?
               (= "compwhen" head-name))
             results))
 
-  (ij/idx/get-first-lines-and-offsets! src filtered ::name)
+  (idx/idx/get-first-lines-and-offsets! src filtered ::name)
 
   # input:
   #
@@ -2388,13 +2388,13 @@
 
 ########################################################################
 
-(defn ij/ij/index-janet-boot!
+(defn idx/ij/index-janet-boot!
   [out-buf]
   (def boot-janet-path "src/boot/boot.janet")
   (def src
     (slurp boot-janet-path))
   #
-  (ij/idx/index-file! src boot-janet-path ij/ij/find-janet-tags out-buf))
+  (idx/idx/index-file! src boot-janet-path idx/ij/find-janet-tags out-buf))
 
 (comment import ./tags :prefix "")
 (comment import ./etags :prefix "")
@@ -2418,20 +2418,20 @@ search-string,idline,offset-from-start
 ```
 
 # SOH - start of heading
-(def ij/etags/start-of-heading
+(def idx/etags/start-of-heading
   (string/from-bytes 0x01))
 
 # FF - form feed
-(def ij/etags/form-feed
+(def idx/etags/form-feed
   (string/from-bytes 0x0C))
 
 # DEL - delete
-(def ij/etags/delete
+(def idx/etags/delete
   (string/from-bytes 0x7F))
 
-(def ij/etags/etags-grammar
+(def idx/etags/etags-grammar
   ~{:main (sequence (any (sequence :section-sep :section)) -1)
-    :section-sep (sequence ,ij/etags/form-feed :eol)
+    :section-sep (sequence ,idx/etags/form-feed :eol)
     :section (cmt (sequence :file-line (any :tag-line))
                   ,(fn [path & rest]
                      (merge ;(keep (fn [m]
@@ -2461,8 +2461,8 @@ search-string,idline,offset-from-start
     # \r, \n are here to bound the matching to the current line
     :id (some (if-not (choice :tag-line-sep-2 :eol) 1))
     :eol (choice "\r\n" "\r" "\n")
-    :tag-line-sep-1 ,ij/etags/delete
-    :tag-line-sep-2 ,ij/etags/start-of-heading})
+    :tag-line-sep-1 ,idx/etags/delete
+    :tag-line-sep-2 ,idx/etags/start-of-heading})
 
 (comment
 
@@ -2484,7 +2484,7 @@ search-string,idline,offset-from-start
 
     ```)
 
-  (peg/match ij/etags/etags-grammar etags)
+  (peg/match idx/etags/etags-grammar etags)
   # =>
   '@[@{}
      @{"tuple/brackets"
@@ -2518,7 +2518,7 @@ search-string,idline,offset-from-start
 
     ```)
 
-  (peg/match ij/etags/etags-grammar etags)
+  (peg/match idx/etags/etags-grammar etags)
   # =>
   '@[@{}
      @{"tuple/brackets"
@@ -2537,16 +2537,16 @@ search-string,idline,offset-from-start
   )
 
 
-(def ij/tags/parse-peg
+(def idx/tags/parse-peg
   '(sequence :s*
              "("
              (capture (to :s))
              :s))
 
-(defn ij/tags/to-tags-kind
+(defn idx/tags/to-tags-kind
   [text]
   (def compiled-peg
-    (peg/compile ij/tags/parse-peg))
+    (peg/compile idx/tags/parse-peg))
   (if-let [[extracted] (peg/match compiled-peg text)]
     (case extracted
       "def" "d"
@@ -2566,22 +2566,22 @@ search-string,idline,offset-from-start
 
 (comment
 
-  (ij/tags/to-tags-kind
+  (idx/tags/to-tags-kind
     "JANET_CORE_FN(cfun_tuple_brackets,")
   # =>
   "f"
 
-  (ij/tags/to-tags-kind
+  (idx/tags/to-tags-kind
     "(def defn :macro")
   # =>
   "d"
 
-  (ij/tags/to-tags-kind
+  (idx/tags/to-tags-kind
     "  (defn .disasm")
   # =>
   "n"
 
-  (ij/tags/to-tags-kind
+  (idx/tags/to-tags-kind
     (string `  `
             `(defdyn *ffi-context* " `
             `Current native library for ffi/bind and other settings")`))
@@ -2622,11 +2622,11 @@ search-string,idline,offset-from-start
 
   )
 
-(defn ij/tags/etags-to-tags
+(defn idx/tags/etags-to-tags
   [etags-buf]
   (def out-lines @[])
   (def parsed
-    (peg/match ij/etags/etags-grammar etags-buf))
+    (peg/match idx/etags/etags-grammar etags-buf))
   (each dict parsed
     (eachp [id info] dict
       (def line (first info))
@@ -2641,7 +2641,7 @@ search-string,idline,offset-from-start
                   (string id "\t"
                           path "\t"
                           line "\t"
-                          `;" ` (ij/tags/to-tags-kind text)))))
+                          `;" ` (idx/tags/to-tags-kind text)))))
   #
   (sort out-lines))
 
@@ -2658,7 +2658,7 @@ search-string,idline,offset-from-start
 
      ``)
 
-  (ij/tags/etags-to-tags etags-buf)
+  (idx/tags/etags-to-tags etags-buf)
   # =>
   '@["as-macro\tsrc/boot/boot.janet\t51\t;\" m"
      "defmacro\tsrc/boot/boot.janet\t45\t;\" n"
@@ -2669,7 +2669,9 @@ search-string,idline,offset-from-start
 
 
 
-(def ij/usage
+(def idx/version "DEVEL")
+
+(def idx/usage
   ``
   Usage: idx.janet
 
@@ -2702,20 +2704,65 @@ search-string,idline,offset-from-start
 
 ########################################################################
 
-(defn ij/in-janet-src-dir?
+(defn idx/in-janet-src-dir?
   []
   (and (os/stat "janet.1")
        (os/stat "src")))
 
+(defn idx/file-newest?
+  [file-path dir-path]
+  (def tags-mtime
+    (get (os/stat file-path) :modified))
+  (var newest-path file-path)
+  (with [of (file/temp)]
+    (def dir (os/cwd))
+    (defer (os/cd dir)
+      (os/cd dir-path)
+      (def proc (os/execute ["git" "ls-files"] :px
+                            {:out of}))
+      # XXX: unneeded?
+      (file/flush of)
+      (file/seek of :set 0)
+      (def content (string/trim (file/read of :all)))
+      (def lines (string/split "\n" content))
+      (each res lines
+        (def mtime (get (os/stat res) :modified))
+        (when (> mtime tags-mtime)
+          (set newest-path res)
+          (break)))))
+  #
+  (= newest-path file-path))
+
+(defn idx/all-ids-valid?
+  [all-ids]
+  (and (array? all-ids)
+       (all string? all-ids)))
+
+(comment
+
+  (idx/all-ids-valid? @["alice" "bob" "carol"])
+  # =>
+  true
+
+  (idx/all-ids-valid? [:a :b :c])
+  # =>
+  false
+
+  (idx/all-ids-valid? @["tom" :wall "jerry"])
+  # =>
+  false
+
+  )
+
 ########################################################################
 
-(defn ij/main
+(defn idx/main
   [& argv]
 
-  (when (or (not (ij/in-janet-src-dir?))
+  (when (or (not (idx/in-janet-src-dir?))
             (when-let [arg (get argv 1)]
               (= "--help" arg)))
-    (print ij/usage)
+    (print idx/usage)
     (break 0))
 
   (def opts
@@ -2761,34 +2808,34 @@ search-string,idline,offset-from-start
   # XXX: hack to capture all ids in an array
   (setdyn :all-ids @[])
 
-  (ij/ij/index-janet-boot! out-buf)
+  (idx/ij/index-janet-boot! out-buf)
 
   (each name (os/dir "src/core/")
     (def path (string "src/core/" name))
     (def src (slurp path))
     (cond
       (= "io.c" name)
-      (ij/ij2c/index-janet-core-def-c! src path out-buf)
+      (idx/ij2c/index-janet-core-def-c! src path out-buf)
       #
       (= "math.c" name)
       (do
-        (ij/ij2c/index-math-c! src path out-buf)
-        (ij/ij2c/index-janet-core-def-c! src path out-buf))
+        (idx/ij2c/index-math-c! src path out-buf)
+        (idx/ij2c/index-janet-core-def-c! src path out-buf))
       #
       (= "specials.c" name)
-      (ij/ij2c/index-specials-c! src path out-buf)
+      (idx/ij2c/index-specials-c! src path out-buf)
       #
       (= "corelib.c" name)
-      (ij/ij2c/index-corelib-c! src path out-buf))
+      (idx/ij2c/index-corelib-c! src path out-buf))
     #
     (try
-      (ij/ij2c/index-generic-c! src path out-buf)
+      (idx/ij2c/index-generic-c! src path out-buf)
       ([e]
         (eprintf "%s %s" e path)))
     #
     (when (dyn :ij-c2c)
       (try
-        (ij/ic/index-c! src path out-buf)
+        (idx/ic/index-c! src path out-buf)
         ([e]
           (eprintf "%s %s" e path)))))
 
@@ -2798,13 +2845,13 @@ search-string,idline,offset-from-start
     (def src
       (slurp path))
     (try
-      (ij/ic/index-c! src path out-buf)
+      (idx/ic/index-c! src path out-buf)
       ([e]
         (eprintf "%s %s" e path))))
 
   (def out-lines
     (if (= out-format "u-ctags")
-      (ij/tags/etags-to-tags out-buf)
+      (idx/tags/etags-to-tags out-buf)
       (string/split "\n" out-buf)))
 
   # write the index (u-ctags -> tags, etags -> TAGS)
@@ -2823,4 +2870,16 @@ search-string,idline,offset-from-start
                        (string/has-suffix? "\n" line)))
           (file/write tf "\n"))))
     (file/flush tf)))
+
+########################################################################
+
+(defn idx/build-index
+  [j-src-path file-ext &opt format]
+  (default format "etags")
+  (def dir (os/cwd))
+  (defer (os/cd dir)
+    (os/cd j-src-path)
+    (os/setenv "IJ_OUTPUT_FORMAT" format)
+    (os/setenv "IJ_FILE_EXTENSION" file-ext)
+    (idx/main)))
 

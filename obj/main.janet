@@ -3,7 +3,7 @@
 (import ./argv :prefix "")
 (import ./completion :prefix "")
 (import ./dyns :prefix "")
-(import ./index :prefix "")
+(import ./idx :prefix "")
 (import ./src :prefix "")
 
 (def usage

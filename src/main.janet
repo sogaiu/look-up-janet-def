@@ -3,7 +3,7 @@
 (import ./argv :as av)
 (import ./completion :as compl)
 (import ./dyns :as d)
-(import ./index :as idx)
+(import ./idx :as idx)
 (import ./src :as src)
 
 (def usage

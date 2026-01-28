@@ -9,7 +9,7 @@
    :paths [["sbb.janet" "bundle/"]]}
   {:name "index-janet"
    :url "https://github.com/sogaiu/index-janet"
-   :tag "bc4b879ead565202112aa377b6aff20b1bbcc2eb"
+   :tag "0fa9b39a19fd5ac8cf694d5b63d71dcf24ace5b8"
    :paths [["idx.janet" "src/"]]}
   {:name "niche"
    :url "https://github.com/sogaiu/niche"

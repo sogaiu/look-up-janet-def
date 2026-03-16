@@ -1,5 +1,7 @@
 #! /usr/bin/env janet
 
+#! /usr/bin/env janet
+
 (comment import ./index-c :prefix "")
 (comment import ./index :prefix "")
 (defn idx/get-first-lines-and-offsets!
@@ -739,10 +741,8 @@
                    (string pos)])))
   # enum constants
   (each item td-en-st
-    (def line
-      (get item :text))
-    (def pos
-      (get item :bp))
+    (def line (get item :text))
+    (def pos (get item :bp))
     (when (or (and (string/has-prefix? "enum " line)
                    (string/has-suffix? "{" line))
               (and (string/has-prefix? "typedef enum " line)
@@ -763,24 +763,20 @@
             :id (some (choice :a :d "_"))}
           src pos))
       (when m
-        (each item m
-          (def line-no
-            (get item :bl))
-          (def pos
-            (get item :bp))
-          (def line
-            (get item :text))
-          (def trimmed
-            (string/trim line))
+        (each m-item m
+          (def mi-line-no (get m-item :bl))
+          (def mi-pos (get m-item :bp))
+          (def mi-line (get m-item :text))
+          (def trimmed (string/trim mi-line))
           (def id
             (string/slice trimmed
                           0 (or (string/find "," trimmed)
                                 -1)))
           (array/push results
-                      [line
+                      [mi-line
                        id
-                       (string line-no)
-                       (string pos)])))))
+                       (string mi-line-no)
+                       (string mi-pos)])))))
   #
   results)
 
@@ -1451,20 +1447,20 @@
                # add the index position and parent id for each child
                [_ children]
                (reduce (fn add-idx-and-pid
-                         [[counter kids] child]
+                         [[a-counter kids] child]
                          # XXX
-                         #(d/deprintf "counter: %n" counter)
+                         #(d/deprintf "counter: %n" a-counter)
                          #(d/deprintf "kids: %n" kids)
                          #(d/deprintf "child: %n" child)
-                         (def [_ attrs _] child)
+                         (def [_ c-attrs _] child)
                          # XXX
-                         #(d/deprintf "type: %n" (type attrs))
-                         (unless (= :table (type attrs))
+                         #(d/deprintf "type: %n" (type c-attrs))
+                         (unless (= :table (type c-attrs))
                            (eprintf "child: %n" child)
                            (eprintf "$&: %n" $&))
-                         (put attrs :idx counter)
-                         (put attrs :pid id)
-                         [(inc counter)
+                         (put c-attrs :idx a-counter)
+                         (put c-attrs :pid id)
+                         [(inc a-counter)
                           (array/push kids child)])
                        # index and to-be-filled-with-children
                        [0 @[]]
@@ -1505,11 +1501,11 @@
         (if-let [captures (peg/match loc-grammar src start)]
           (let [[bl bc bp] (array/slice captures 0 3)
                 [el ec ep] (array/slice captures (dec -3))
-                [_ trees] (reduce (fn [[counter kids] child]
+                [_ trees] (reduce (fn [[a-counter kids] child]
                                     (def [_ attrs _] child)
-                                    (put attrs :idx counter)
+                                    (put attrs :idx a-counter)
                                     (put attrs :pid top-id)
-                                    [(inc counter)
+                                    [(inc a-counter)
                                      (array/push kids child)])
                                   [0 @[]]
                                   (array/slice captures 3 (dec -3)))]
@@ -1934,7 +1930,7 @@
               (length parse-results))))
   #
   (defn make-query-peg
-    [an-ast arr]
+    [the-ast the-arr]
     (var saw-ws-last-time nil)
     (defn gen*
       [an-ast arr]
@@ -1990,7 +1986,7 @@
       #
       arr)
     #
-    (gen* an-ast arr))
+    (gen* the-ast the-arr))
   #
   {:lang-grammar lang-grammar
    :loc-table loc->node
@@ -2312,7 +2308,7 @@
      <:...>)
     ``)
 
-  (def [results _ loc->node]
+  (def [q-results _ loc->node]
     (jq/query query-str src {:blank-delims [`<` `>`]}))
 
   (def {:grammar loc-grammar
@@ -2352,7 +2348,7 @@
               (def [_ _ head-name] head-node)
               # XXX: any other things (e.g. compif)?
               (= "compwhen" head-name))
-            results))
+            q-results))
 
   (idx/get-first-lines-and-offsets! src filtered ::name)
 
@@ -2669,7 +2665,7 @@ search-string,idline,offset-from-start
 
 
 
-(def version "DEVEL")
+(def version "2026-03-16_07-35-14")
 
 (def usage
   ``
